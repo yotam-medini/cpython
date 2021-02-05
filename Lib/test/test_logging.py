@@ -5208,6 +5208,8 @@ class RotatingFileHandlerTest(BaseFileTest):
         self.assertFalse(os.path.exists(namer(self.fn + ".3")))
         rh.close()
 
+    @unittest.skipIf(sys.platform.startswith('win'),
+                     "Windows rename(s,d) fails if other process opened s")
     def test_intertwining_threads(self):
         backupCount = 2
         self.clean_children(backupCount)
